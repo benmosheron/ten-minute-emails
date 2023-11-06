@@ -1,9 +1,10 @@
-package tme
+package tme.api
 
 import cats.Monad
+import cats.syntax.all._
 import tme.data.DataStore
 import tme.data.Model._
-import cats.syntax.all._
+import tme.generator.IdGenerator
 
 import java.time.{LocalDateTime, ZoneId}
 

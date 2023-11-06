@@ -1,4 +1,4 @@
-package tme
+package tme.generator
 
 import cats.MonadThrow
 import cats.effect.IO

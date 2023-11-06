@@ -8,8 +8,10 @@ import org.http4s._
 import org.http4s.dsl.io._
 import org.http4s.ember.server._
 import org.http4s.implicits._
+import tme.api.TenMinuteEmailService
 import tme.data.DataStoreMap
 import tme.data.Model._
+import tme.generator.WordListIdGenerator
 
 // DISCLAIMER: The HTTP server is a bit of an after thought to allow us to interact with the code.
 // I haven't spent much time/effort on it.

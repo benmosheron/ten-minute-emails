@@ -1,4 +1,4 @@
-package tme
+package tme.api
 
 import cats.effect.IO
 import cats.effect.testing.scalatest.AsyncIOSpec
@@ -6,6 +6,7 @@ import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AsyncWordSpec
 import tme.data.DataStoreMap
 import tme.data.Model.{Email, TemporaryEmail}
+import tme.generator.IdGenerator
 
 import java.util.concurrent.atomic.AtomicInteger
 

@@ -1,10 +1,10 @@
-package tme
+package tme.generator
 
 import cats.MonadThrow
 import cats.effect.std.Random
+import cats.syntax.all._
 import tme.data.HumanReadableWords
 import tme.data.Model.TemporaryEmail
-import cats.syntax.all._
 
 class WordListIdGenerator[F[_]: Random: MonadThrow] extends IdGenerator[F] {
 

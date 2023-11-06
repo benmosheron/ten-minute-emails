@@ -1,4 +1,4 @@
-package tme
+package tme.api
 
 import tme.data.Model._
 

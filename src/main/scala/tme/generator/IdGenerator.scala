@@ -1,4 +1,4 @@
-package tme
+package tme.generator
 
 import tme.data.Model.TemporaryEmail
 
