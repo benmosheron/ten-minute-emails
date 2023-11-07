@@ -8,10 +8,12 @@ import org.http4s._
 import org.http4s.dsl.io._
 import org.http4s.ember.server._
 import org.http4s.implicits._
-import tme.api.TenMinuteEmailService
+import tme.api.{Deleter, TenMinuteEmailService}
 import tme.data.DataStoreMap
 import tme.data.Model._
 import tme.generator.WordListIdGenerator
+
+import scala.concurrent.duration.Duration
 
 // DISCLAIMER: The HTTP server is a bit of an after thought to allow us to interact with the code.
 // I haven't spent much time/effort on it.
@@ -22,7 +24,9 @@ object IoHttpServer {
     idGenerator = new WordListIdGenerator[IO]()(rng, implicitly[MonadThrow[IO]])
     dataStore <- DataStoreMap.build[IO]()
     service = new TenMinuteEmailService[IO](idGenerator, dataStore)
-    server <- EmberServerBuilder
+    deleter = new Deleter[IO](dataStore, Duration("10 minutes"))
+    // Run the deleter process in parallel with the server
+    server <- deleter.start() &> EmberServerBuilder
       .default[IO]
       .withHost(ipv4"0.0.0.0")
       .withPort(port"8080")
