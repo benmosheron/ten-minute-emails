@@ -4,6 +4,8 @@ import cats.effect.IO
 import cats.effect.testing.scalatest.AsyncIOSpec
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AsyncWordSpec
+import org.typelevel.log4cats.LoggerFactory
+import org.typelevel.log4cats.slf4j.Slf4jFactory
 import tme.data.DataStoreMap
 import tme.data.Model.{Email, TemporaryEmail}
 import tme.generator.IdGenerator
@@ -11,6 +13,8 @@ import tme.generator.IdGenerator
 import java.util.concurrent.atomic.AtomicInteger
 
 class TenMinuteEmailServiceTest extends AsyncWordSpec with AsyncIOSpec with Matchers {
+
+  private implicit val loggerFactory: LoggerFactory[IO] = Slf4jFactory[IO]
 
   private def testIdGenerator: IdGenerator[IO] = new IdGenerator[IO] {
     val counter = new AtomicInteger(0)

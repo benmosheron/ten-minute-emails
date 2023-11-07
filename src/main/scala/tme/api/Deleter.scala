@@ -1,21 +1,23 @@
 package tme.api
 
 import cats.effect.Temporal
-import cats.effect.std.Console
 import cats.syntax.all._
+import org.typelevel.log4cats.LoggerFactory
 import tme.data.DataStore
 
 import java.time.{LocalDateTime, ZoneId}
 import scala.concurrent.duration.Duration
 
-class Deleter[F[_]: Console: Temporal](dataStore: DataStore[F], interval: Duration) {
+class Deleter[F[_]: LoggerFactory: Temporal](dataStore: DataStore[F], interval: Duration) {
+
+  private val logger = LoggerFactory[F].getLogger
 
   def start(): F[Unit] = (for {
-    _ <- Console[F].println(s"Deleter: Waiting for $interval")
+    _ <- logger.info(s"Waiting for $interval")
     _ <- Temporal[F].sleep(interval)
-    _ <- Console[F].println("Deleter: Deleting old emails")
+    _ <- logger.info("Deleting old emails")
     i <- dataStore.deleteOlderThan(LocalDateTime.now(ZoneId.of("Z")).minusSeconds(interval.toSeconds))
-    _ <- Console[F].println(s"Deleter: Deleted [$i] temporary email addresses")
+    _ <- logger.info(s"Deleted [$i] temporary email addresses")
   } yield ()).foreverM
 
 }

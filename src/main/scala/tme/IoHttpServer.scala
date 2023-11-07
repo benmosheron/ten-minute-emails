@@ -8,6 +8,8 @@ import org.http4s._
 import org.http4s.dsl.io._
 import org.http4s.ember.server._
 import org.http4s.implicits._
+import org.typelevel.log4cats.LoggerFactory
+import org.typelevel.log4cats.slf4j.Slf4jFactory
 import tme.api.{Deleter, TenMinuteEmailService}
 import tme.data.DataStoreMap
 import tme.data.Model._
@@ -19,6 +21,9 @@ import scala.concurrent.duration.Duration
 // I haven't spent much time/effort on it.
 object IoHttpServer {
 
+  private implicit val loggerFactory: LoggerFactory[IO] = Slf4jFactory[IO]
+  private val logger = loggerFactory.getLogger
+
   def run: IO[ExitCode] = for {
     rng <- Random.scalaUtilRandom[IO]
     idGenerator = new WordListIdGenerator[IO]()(rng, implicitly[MonadThrow[IO]])
@@ -26,6 +31,7 @@ object IoHttpServer {
     service = new TenMinuteEmailService[IO](idGenerator, dataStore)
     deleter = new Deleter[IO](dataStore, Duration("10 minutes"))
     // Run the deleter process in parallel with the server
+    _ <- logger.info("Starting deleter and server in parallel")
     server <- deleter.start() &> EmberServerBuilder
       .default[IO]
       .withHost(ipv4"0.0.0.0")

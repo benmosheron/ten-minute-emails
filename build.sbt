@@ -13,6 +13,7 @@ libraryDependencies += "org.typelevel" %% "cats-core" % "2.10.0"
 libraryDependencies += "org.typelevel" %% "cats-effect" % "3.5.2"
 libraryDependencies += "org.typelevel" %% "cats-effect-testing-scalatest" % "1.5.0" % Test
 libraryDependencies += "org.slf4j" % "slf4j-simple" % "2.0.9"
+libraryDependencies += "org.typelevel" %% "log4cats-slf4j"   % "2.6.0"
 
 val http4sVersion = "0.23.23"
 

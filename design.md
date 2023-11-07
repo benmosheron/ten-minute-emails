@@ -14,6 +14,8 @@ Inbox uses a vector for fast appending.
 
 I didn't implement pagination, a non-trivial implementation would involve splitting the inboxes for each key into multiple pages.
 
+LoggerFactory creation is deprecated (annoying, because I used the example from their docs!), long term the correct implementation is to call Slf4jFactory[IO].create, but this would drag things on for no benefit.
+
 
 # Thoughts on the ID Generator
 
